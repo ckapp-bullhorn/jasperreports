@@ -431,7 +431,18 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				statement.setTime( parameterIndex, (java.sql.Time)parameterValue );
 			}
 		}
-		else if (java.util.Date.class.isAssignableFrom(parameterType))
+		else if (java.util.Date.class.equals(parameterType))
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, Types.TIMESTAMP);
+			}
+			else
+			{
+				statement.setTimestamp( parameterIndex, new java.sql.Timestamp( ((java.util.Date)parameterValue).getTime() ) );
+			}
+		}
+		else if (java.sql.Date.class.isAssignableFrom(parameterType))
 		{
 			if (parameterValue == null)
 			{
